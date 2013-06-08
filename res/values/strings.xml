@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Hassle</string>
+    <string name="menu_twitter">Connect a Twitter Account!</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>
