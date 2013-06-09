@@ -22,3 +22,5 @@ local.properties
 .settings/
 proguard-project.txt
 project.properties
+
+.DS_Store

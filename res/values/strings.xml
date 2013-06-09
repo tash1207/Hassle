@@ -3,6 +3,12 @@
 
     <string name="app_name">Hassle</string>
     <string name="menu_twitter">Connect a Twitter Account!</string>
-    <string name="hello_world">Hello world!</string>
+    
+    <string name="name">Name</string>
+    <string name="phone">Phone Number</string>
+    <string name="email">Email Address</string>
+    <string name="twitter">Twitter Handle</string>
+    <string name="photo">Photo</string>
+    <string name="create">Create Contact!</string>
 
 </resources>
