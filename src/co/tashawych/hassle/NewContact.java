@@ -1,5 +1,7 @@
 package co.tashawych.hassle;
 
+import co.tashawych.hassle.datatypes.Contact;
+import co.tashawych.hassle.db.DatabaseHelper;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,14 +10,47 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class NewContact extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.new_contact);
     }
+    
+    public void create_clicked(View view) {
+    	EditText name_edit = (EditText) findViewById(R.id.name_edit);
+    	EditText phone_edit = (EditText) findViewById(R.id.phone_edit);
+    	EditText email_edit = (EditText) findViewById(R.id.email_edit);
+    	EditText twitter_edit = (EditText) findViewById(R.id.twitter_edit);
+    	
+    	String name = name_edit.getText().toString();
+    	String phone = phone_edit.getText().toString();
+    	String email = email_edit.getText().toString();
+    	String twitter = twitter_edit.getText().toString();
+    	
+    	Contact contact = new Contact(name, "", phone, email, twitter);
+    	boolean exists = DatabaseHelper.getHelper(this).checkIfExists(contact);
+    	
+    	if (name.equals("")) {
+    		Toast.makeText(this, "Please enter a name for this contact", Toast.LENGTH_SHORT).show();
+    	}
+    	else if (exists) {
+    		Toast.makeText(this, "A contact with this info already exists!", Toast.LENGTH_SHORT).show();
+    	}
+    	else {
+    		DatabaseHelper.getHelper(this).updateContact(contact);
+    	}
+    }
+    /*
+    public void test_clicked(View view) {
+    	DatabaseHelper.getHelper(this).getAllContacts();
+    }
+    */
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
