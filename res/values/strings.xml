@@ -4,6 +4,13 @@
     <string name="app_name">Hassle</string>
     <string name="menu_twitter">Connect a Twitter Account!</string>
     
+    <string name="who">Who do you want to Hassle?</string>
+    <string name="what">What do you want to Hassle them about?</string>
+    <string name="send_text">Send Text</string>
+    <string name="send_email">Send Email</string>
+    <string name="send_tweet">Send Tweet</string>
+    <string name="btn_hassle">HASSLE!</string>
+    
     <string name="name">Name</string>
     <string name="phone">Phone Number</string>
     <string name="email">Email Address</string>
