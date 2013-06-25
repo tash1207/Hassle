@@ -2,6 +2,7 @@ package co.tashawych.hassle;
 
 import co.tashawych.hassle.datatypes.Contact;
 import co.tashawych.hassle.db.DatabaseHelper;
+import co.tashawych.hassle.social.TwitterOAuth;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

@@ -7,17 +7,18 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 import android.app.Activity;
 import android.app.PendingIntent;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import co.tashawych.hassle.datatypes.Contact;
 import co.tashawych.hassle.db.DatabaseHelper;
+import co.tashawych.hassle.social.GmailSender;
 
 public class Hassle extends Activity {
 	Contact contact;
@@ -86,9 +87,13 @@ public class Hassle extends Activity {
 		}
 		else {
 			if (text_on) {
-				PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(this, Hassle.class), 0);
+				PendingIntent pi = PendingIntent.getActivity(this, 0, null, 0);
 				SmsManager sms = SmsManager.getDefault();
 			    sms.sendTextMessage(contact.phone, null, hassle, pi, null);
+			}
+			
+			if (email_on) {
+                new SendEmail("thankewych@gmail.com", "Bergau1207", hassle).execute();
 			}
 			
 			if (twitter_on) {
@@ -108,10 +113,32 @@ public class Hassle extends Activity {
                 new ComposeTweet(twitter, "@" + contact.twitter + " " + hassle).execute();
 			}
 		    
-			Toast.makeText(this, "Hassle: '" + hassle + "' ... sent!", 
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Hassle: '" + hassle + "' ... sent!", Toast.LENGTH_SHORT).show();
 		}
 	}
+	
+    private class SendEmail extends AsyncTask<Void, Void, Boolean> {
+    	String email;
+    	String password;
+    	String message;
+    	public SendEmail(String email, String password, String message) {
+    		this.email = email;
+    		this.password = password;
+    		this.message = message;
+    	}
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+			try {   
+                GmailSender sender = new GmailSender(email, password);
+                sender.sendMail("You have received a Hassle!", message, "thankewych@gmail.com", contact.email);   
+                return true;
+            } catch (Exception e) {
+                Log.e("SendMail", e.getMessage(), e);
+                return false;
+            }
+        }
+    }
 	
     private class ComposeTweet extends AsyncTask<Void, Void, Boolean> {
     	Twitter twitter;

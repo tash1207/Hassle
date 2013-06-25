@@ -28,7 +28,7 @@
             android:name=".NewContact" >
         </activity>
         <activity
-            android:name=".TwitterOAuth" >
+            android:name="co.tashawych.hassle.social.TwitterOAuth" >
         </activity>
     </application>
 

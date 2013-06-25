@@ -1,4 +1,4 @@
-package co.tashawych.hassle;
+package co.tashawych.hassle.social;
 
 import java.io.IOException;
 
