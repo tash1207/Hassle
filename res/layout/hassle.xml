@@ -37,7 +37,6 @@
 	        android:layout_centerVertical="true"
 	        android:layout_toRightOf="@id/hassle_picture"
 	        android:singleLine="true"
-	        android:text="Andrew Kennedy"
 	        android:textSize="24sp"
 	        android:textColor="#40B840" />
         

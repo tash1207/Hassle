@@ -3,6 +3,7 @@ package co.tashawych.hassle.db;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import co.tashawych.hassle.datatypes.Contact;
@@ -56,6 +57,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     
     public boolean checkIfExists(Contact contact) {
     	return HassleContactDB.checkIfExists(db, contact);
+    }
+    
+    public Cursor getContactsCursor() {
+        return HassleContactDB.getCursor(db);
     }
 
 }

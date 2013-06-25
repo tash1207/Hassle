@@ -16,5 +16,24 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    <style name="lvw_contacts_name_text" >
+        <item name ="android:textStyle">bold</item>
+        <item name ="android:textColor">#FFFFFFFF</item>
+        <item name ="android:shadowColor">@android:color/black</item>
+        <item name ="android:shadowDx">1</item>
+        <item name ="android:shadowDy">1</item>
+        <item name ="android:shadowRadius">.01</item>
+        <item name ="android:textSize">20sp</item>
+    </style>
+    
+    <style name="lvw_contacts_text" >
+        <item name ="android:textColor">#FFFFFFFF</item>
+        <item name ="android:shadowColor">@android:color/black</item>
+        <item name ="android:shadowDx">1</item>
+        <item name ="android:shadowDy">1</item>
+        <item name ="android:shadowRadius">.01</item>
+        <item name ="android:textSize">14sp</item>
+    </style>
 
 </resources>

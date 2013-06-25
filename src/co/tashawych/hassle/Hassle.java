@@ -7,6 +7,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import co.tashawych.hassle.datatypes.Contact;
 import co.tashawych.hassle.db.DatabaseHelper;
@@ -34,6 +36,9 @@ public class Hassle extends Activity {
 		setContentView(R.layout.hassle);
 		
 		contact = DatabaseHelper.getHelper(this).getContact(getIntent().getIntExtra("contact_id", 1));
+		
+		TextView name = (TextView) findViewById(R.id.hassle_name);
+		name.setText(contact.name);
 		hassle_edit = (EditText) findViewById(R.id.hassle_edit);
 		hassle_edit.setHint("What do you want to Hassle " + contact.name + " about?");
 	}
@@ -86,6 +91,7 @@ public class Hassle extends Activity {
 					Toast.LENGTH_SHORT).show();
 		}
 		else {
+			try {
 			if (text_on) {
 				PendingIntent pi = PendingIntent.getActivity(this, 0, null, 0);
 				SmsManager sms = SmsManager.getDefault();
@@ -114,6 +120,12 @@ public class Hassle extends Activity {
 			}
 		    
 			Toast.makeText(this, "Hassle: '" + hassle + "' ... sent!", Toast.LENGTH_SHORT).show();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				Intent new_contact = new Intent(this, NewContact.class);
+				startActivity(new_contact);
+			}
 		}
 	}
 	

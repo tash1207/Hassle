@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
         <activity
-            android:name="co.tashawych.hassle.Hassle"
+            android:name="co.tashawych.hassle.ContactList"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +26,9 @@
         </activity>
         <activity
             android:name=".NewContact" >
+        </activity>
+        <activity
+            android:name=".Hassle" >
         </activity>
         <activity
             android:name="co.tashawych.hassle.social.TwitterOAuth" >

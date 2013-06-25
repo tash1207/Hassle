@@ -67,5 +67,10 @@ public class HassleContactDB {
 
         return contacts;
 	}
+	
+	public static Cursor getCursor(SQLiteDatabase db) {
+		return db.rawQuery("SELECT id AS _id, name, picture, phone, email, twitter " +
+                "FROM contacts ORDER BY name COLLATE NOCASE ASC", null);
+	}
 
 }
