@@ -7,8 +7,10 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -41,6 +43,12 @@ public class Hassle extends Activity {
 		name.setText(contact.name);
 		hassle_edit = (EditText) findViewById(R.id.hassle_edit);
 		hassle_edit.setHint("What do you want to Hassle " + contact.name + " about?");
+	}
+	
+	public void btn_edit_clicked(View v) {
+		Intent edit_contact = new Intent(this, NewContact.class);
+		edit_contact.putExtra("id", contact.id);
+		startActivity(edit_contact);
 	}
 	
 	public void switch_text(View v) {
@@ -96,6 +104,12 @@ public class Hassle extends Activity {
 				PendingIntent pi = PendingIntent.getActivity(this, 0, null, 0);
 				SmsManager sms = SmsManager.getDefault();
 			    sms.sendTextMessage(contact.phone, null, hassle, pi, null);
+			    
+			    ContentValues values = new ContentValues();
+			    values.put("address", contact.phone);
+			    values.put("body", hassle);
+			    values.put("date", System.currentTimeMillis());
+			    getContentResolver().insert(Uri.parse("content://sms/sent"), values);
 			}
 			
 			if (email_on) {
@@ -123,7 +137,7 @@ public class Hassle extends Activity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				Intent new_contact = new Intent(this, NewContact.class);
+				Intent new_contact = new Intent(this, ContactList.class);
 				startActivity(new_contact);
 			}
 		}

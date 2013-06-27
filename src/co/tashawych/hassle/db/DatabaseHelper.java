@@ -51,6 +51,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     	return HassleContactDB.getContactById(db, id);
     }
     
+    public void deleteContact(int id) {
+    	HassleContactDB.deleteContact(db, id);
+    	return;
+    }
+    
     public ArrayList<Contact> getAllContacts() {
     	return HassleContactDB.getAllContacts(db);
     }

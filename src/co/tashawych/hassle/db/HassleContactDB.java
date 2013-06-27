@@ -43,6 +43,11 @@ public class HassleContactDB {
         return contact;
 	}
 	
+	public static void deleteContact(SQLiteDatabase db, int id) {
+		db.delete(TABLE_NAME, "id=" + id, null);
+		return;
+	}
+	
 	public static boolean checkIfExists(SQLiteDatabase db, Contact contact) {
 		Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + 
 				" WHERE name='" + contact.name + "'" +

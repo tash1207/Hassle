@@ -21,13 +21,12 @@
     <RelativeLayout 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:layout_gravity="center_horizontal" >
+        android:layout_marginBottom="12dp" >
         
         <ImageView android:id="@+id/hassle_picture"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="10dp"
             android:contentDescription="@string/photo"
         	android:background="#999999" />
         
@@ -36,9 +35,19 @@
 	        android:layout_height="wrap_content"
 	        android:layout_centerVertical="true"
 	        android:layout_toRightOf="@id/hassle_picture"
+	        android:layout_marginRight="45dp"
 	        android:singleLine="true"
+	        android:text="ndndndndn dfffgg"
 	        android:textSize="24sp"
 	        android:textColor="#40B840" />
+        
+        <ImageView android:id="@+id/btn_edit"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/photo"
+        	android:background="#123321"
+        	android:onClick="btn_edit_clicked" />
         
     </RelativeLayout>
     
