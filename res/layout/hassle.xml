@@ -27,8 +27,11 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginRight="10dp"
+            android:src="@drawable/andrew"
             android:contentDescription="@string/photo"
-        	android:background="#999999" />
+        	android:background="#999999"
+        	android:clickable="true"
+        	android:onClick="btn_edit_clicked" />
         
         <TextView android:id="@+id/hassle_name"
 	        android:layout_width="wrap_content"
@@ -37,17 +40,17 @@
 	        android:layout_toRightOf="@id/hassle_picture"
 	        android:layout_marginRight="45dp"
 	        android:singleLine="true"
-	        android:text="ndndndndn dfffgg"
 	        android:textSize="24sp"
 	        android:textColor="#40B840" />
         
-        <ImageView android:id="@+id/btn_edit"
+        <ImageView android:id="@+id/btn_speak"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
+            android:src="@android:drawable/ic_btn_speak_now"
             android:contentDescription="@string/photo"
-        	android:background="#123321"
-        	android:onClick="btn_edit_clicked" />
+        	android:background="#FAFAFA"
+        	android:onClick="btn_speak_clicked" />
         
     </RelativeLayout>
     

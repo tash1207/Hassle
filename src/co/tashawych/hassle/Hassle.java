@@ -1,5 +1,8 @@
 package co.tashawych.hassle;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -13,6 +16,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +36,8 @@ public class Hassle extends Activity {
 	boolean email_on = true;
 	boolean twitter_on = true;
 	
+	private static int VOICE_RECOGNITION = 334;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,10 +51,33 @@ public class Hassle extends Activity {
 		hassle_edit.setHint("What do you want to Hassle " + contact.name + " about?");
 	}
 	
+	private void request_voice_input() {
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say your Hassle message");
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+		startActivityForResult(intent, VOICE_RECOGNITION);
+	}
+	
+	@Override
+	protected void onActivityResult(int request, int result, Intent data) {
+		if (result == RESULT_OK && request == VOICE_RECOGNITION) {
+			ArrayList<String> results = 
+					data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+			
+			String mostLikelyResult = results.get(0);
+			hassle_edit.setText(mostLikelyResult);
+		}
+	}
+	
 	public void btn_edit_clicked(View v) {
 		Intent edit_contact = new Intent(this, NewContact.class);
 		edit_contact.putExtra("id", contact.id);
 		startActivity(edit_contact);
+	}
+	
+	public void btn_speak_clicked(View v) {
+		request_voice_input();
 	}
 	
 	public void switch_text(View v) {
