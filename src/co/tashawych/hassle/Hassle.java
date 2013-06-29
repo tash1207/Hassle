@@ -8,7 +8,6 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -28,15 +27,13 @@ import co.tashawych.hassle.datatypes.Contact;
 import co.tashawych.hassle.db.DatabaseHelper;
 import co.tashawych.hassle.social.GmailSender;
 
-public class Hassle extends Activity {
+public class Hassle extends BaseActivity {
 	Contact contact;
 	EditText hassle_edit;
 	
 	boolean text_on = true;
 	boolean email_on = true;
 	boolean twitter_on = true;
-	
-	private static int VOICE_RECOGNITION = 334;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -142,14 +139,14 @@ public class Hassle extends Activity {
 			}
 			
 			if (email_on) {
-                new SendEmail("thankewych@gmail.com", "Bergau1207", hassle).execute();
+                new SendEmail(getString(R.string.my_email), getString(R.string.my_password), hassle).execute();
 			}
 			
 			if (twitter_on) {
 				SharedPreferences prefs = getSharedPreferences("Hassle", 0);
 				ConfigurationBuilder cb = new ConfigurationBuilder();
-                cb.setOAuthConsumerKey("R5F8PvM2k48BztKSs7pQ");
-                cb.setOAuthConsumerSecret("OZmt614YWtmRU3Hqh68R8X5PmDrUinRUnNn7ENZUwcI");
+                cb.setOAuthConsumerKey(getString(R.string.twitter_consumer_key));
+                cb.setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret));
                 cb.setOAuthAccessToken(prefs.getString("twitter_cred_token", ""));
                 cb.setOAuthAccessTokenSecret(prefs.getString("twitter_cred_token_secret", ""));
                 
@@ -186,7 +183,7 @@ public class Hassle extends Activity {
         protected Boolean doInBackground(Void... voids) {
 			try {   
                 GmailSender sender = new GmailSender(email, password);
-                sender.sendMail("You have received a Hassle!", message, "thankewych@gmail.com", contact.email);   
+                sender.sendMail("You have received a Hassle!", message, getString(R.string.my_email), contact.email);
                 return true;
             } catch (Exception e) {
                 Log.e("SendMail", e.getMessage(), e);

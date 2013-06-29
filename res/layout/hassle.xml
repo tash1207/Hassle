@@ -27,7 +27,6 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/andrew"
             android:contentDescription="@string/photo"
         	android:background="#999999"
         	android:clickable="true"

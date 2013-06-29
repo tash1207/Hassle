@@ -1,6 +1,5 @@
 package co.tashawych.hassle;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +7,7 @@ import android.widget.ListView;
 import co.tashawych.hassle.adapters.ContactCursorAdapter;
 import co.tashawych.hassle.db.DatabaseHelper;
 
-public class ContactList extends Activity {
+public class ContactList extends BaseActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

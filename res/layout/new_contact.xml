@@ -20,7 +20,9 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="12dp"
         android:contentDescription="@string/photo"
-        android:background="#999999" />
+        android:background="#999999"
+        android:clickable="true"
+        android:onClick="photo_clicked" />
     
     <TextView
         android:layout_width="wrap_content"
