@@ -25,10 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import co.tashawych.hassle.datatypes.Contact;
 import co.tashawych.hassle.db.DatabaseHelper;
+import co.tashawych.hassle.misc.Utility;
 import co.tashawych.hassle.social.GmailSender;
 
 public class Hassle extends BaseActivity {
 	Contact contact;
+	ImageView picture;
+	TextView name;
 	EditText hassle_edit;
 	
 	boolean text_on = true;
@@ -40,12 +43,33 @@ public class Hassle extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.hassle);
 		
-		contact = DatabaseHelper.getHelper(this).getContact(getIntent().getIntExtra("contact_id", 1));
+		picture = (ImageView) findViewById(R.id.hassle_picture);
+		name = (TextView) findViewById(R.id.hassle_name);
+		hassle_edit = (EditText) findViewById(R.id.hassle_edit);		
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		new init_page().execute();
+	}
+	
+	private class init_page extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			contact = DatabaseHelper.getHelper(Hassle.this).getContact(getIntent().getIntExtra("contact_id", 1));
+			return null;
+		}
 		
-		TextView name = (TextView) findViewById(R.id.hassle_name);
-		name.setText(contact.name);
-		hassle_edit = (EditText) findViewById(R.id.hassle_edit);
-		hassle_edit.setHint("What do you want to Hassle " + contact.name + " about?");
+		@Override
+		protected void onPostExecute(Void voids) {
+			name.setText(contact.name);
+			picture.setImageBitmap(Utility.getBitmapFromString(contact.picture));
+			hassle_edit.setHint("What do you want to Hassle " + contact.name + " about?");
+			return;
+		}
+		
 	}
 	
 	private void request_voice_input() {
@@ -58,6 +82,7 @@ public class Hassle extends BaseActivity {
 	
 	@Override
 	protected void onActivityResult(int request, int result, Intent data) {
+		// VOICE RECOGNITION
 		if (result == RESULT_OK && request == VOICE_RECOGNITION) {
 			ArrayList<String> results = 
 					data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);

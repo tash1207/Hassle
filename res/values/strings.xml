@@ -18,11 +18,5 @@
     <string name="twitter">Twitter Handle</string>
     <string name="photo">Photo</string>
     <string name="create">Create Contact!</string>
-    
-    <string name="my_email">xxxx</string>
-    <string name="my_password">xxxx</string>
-    
-    <string name="twitter_consumer_key">xxxx</string>
-    <string name="twitter_consumer_secret">xxxx</string>
 
 </resources>

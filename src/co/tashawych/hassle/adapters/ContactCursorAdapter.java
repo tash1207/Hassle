@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import co.tashawych.hassle.Hassle;
 import co.tashawych.hassle.R;
+import co.tashawych.hassle.misc.Utility;
 
 public class ContactCursorAdapter extends SimpleCursorAdapter {
 	Context context;
@@ -52,10 +53,25 @@ public class ContactCursorAdapter extends SimpleCursorAdapter {
         }
 		
 		if (c.moveToPosition(position)) {
+			holder.image.setImageBitmap(Utility.getBitmapFromString(c.getString(c.getColumnIndex("picture"))));
 			holder.name.setText(c.getString(c.getColumnIndex("name")));
 			holder.phone.setText(c.getString(c.getColumnIndex("phone")));
-			holder.email.setText(c.getString(c.getColumnIndex("email")));
-			holder.twitter.setText("@" + c.getString(c.getColumnIndex("twitter")));
+			
+			if (c.getString(c.getColumnIndex("email")).equals("")) {
+				holder.email.setVisibility(View.GONE);
+			}
+			else {
+				holder.email.setVisibility(View.VISIBLE);
+				holder.email.setText(c.getString(c.getColumnIndex("email")));
+			}
+			
+			if (c.getString(c.getColumnIndex("twitter")).equals("")) {
+				holder.twitter.setVisibility(View.GONE);
+			}
+			else {
+				holder.twitter.setVisibility(View.VISIBLE);
+				holder.twitter.setText("@" + c.getString(c.getColumnIndex("twitter")));
+			}
 		}
 		
 		convertView.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,5 @@
 package co.tashawych.hassle;
 
-import co.tashawych.hassle.social.TwitterOAuth;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.MenuItem;
+import co.tashawych.hassle.social.TwitterOAuth;
+
 
 public class BaseActivity extends Activity {
 	protected int UPLOAD_PIC = 1;

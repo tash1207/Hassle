@@ -13,6 +13,11 @@ public class ContactList extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.contact_list);
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
 		
 		ListView lvw_contacts = (ListView) findViewById(R.id.lvw_contacts);
 		String[] columns = new String[] {

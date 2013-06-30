@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import co.tashawych.hassle.R;
+
 import com.google.api.client.auth.oauth.OAuthAuthorizeTemporaryTokenUrl;
 import com.google.api.client.auth.oauth.OAuthCredentialsResponse;
 import com.google.api.client.auth.oauth.OAuthGetAccessToken;
@@ -24,8 +26,6 @@ import com.google.api.client.http.apache.ApacheHttpTransport;
 
 public class TwitterOAuth extends Activity {
 	
-	private static final String CONSUMER_KEY = "R5F8PvM2k48BztKSs7pQ";
-    private static final String CONSUMER_SECRET = "OZmt614YWtmRU3Hqh68R8X5PmDrUinRUnNn7ENZUwcI";
     private static final String REQUEST_URL = "http://api.twitter.com/oauth/request_token";
     private static final String ACCESS_URL = "http://api.twitter.com/oauth/access_token";
     private static final String AUTHORIZE_URL = "http://api.twitter.com/oauth/authorize";
@@ -66,12 +66,12 @@ public class TwitterOAuth extends Activity {
         protected Void doInBackground(Void...voids) {
 		try {
 			signer = new OAuthHmacSigner();
-			signer.clientSharedSecret = CONSUMER_SECRET;
+			signer.clientSharedSecret = getString(R.string.twitter_consumer_secret);
     
 	        OAuthGetTemporaryToken temporaryToken = new OAuthGetTemporaryToken(REQUEST_URL);
 	        temporaryToken.transport = new ApacheHttpTransport();
 	        temporaryToken.signer = signer;
-	        temporaryToken.consumerKey = CONSUMER_KEY;
+	        temporaryToken.consumerKey = getString(R.string.twitter_consumer_key);
 	        temporaryToken.callback = OAUTH_CALLBACK_URL;
 
             OAuthCredentialsResponse tempCredentials = temporaryToken.execute();
@@ -113,12 +113,12 @@ public class TwitterOAuth extends Activity {
 
         protected Void doInBackground(Void...voids) {
                 
-            signer.clientSharedSecret = CONSUMER_SECRET;
+            signer.clientSharedSecret = getString(R.string.twitter_consumer_secret);
 	        OAuthGetAccessToken accessToken = new OAuthGetAccessToken(ACCESS_URL);
 	        accessToken.transport = new ApacheHttpTransport();
 	        accessToken.temporaryToken = requestToken;
 	        accessToken.signer = signer;
-	        accessToken.consumerKey = CONSUMER_KEY;
+	        accessToken.consumerKey = getString(R.string.twitter_consumer_key);
 	        accessToken.verifier = verifier;
         
         	try {
@@ -138,7 +138,8 @@ public class TwitterOAuth extends Activity {
         
             AccessToken a = new AccessToken(cred_token, cred_token_secret);
             Twitter twitter = new TwitterFactory().getInstance();
-            twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+            twitter.setOAuthConsumer(getString(R.string.twitter_consumer_key), 
+            		getString(R.string.twitter_consumer_secret));
             twitter.setOAuthAccessToken(a);
             
             try {
