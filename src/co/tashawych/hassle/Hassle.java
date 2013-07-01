@@ -34,6 +34,8 @@ public class Hassle extends BaseActivity {
 	TextView name;
 	EditText hassle_edit;
 	
+	SharedPreferences prefs;
+	
 	boolean text_on = true;
 	boolean email_on = true;
 	boolean twitter_on = true;
@@ -42,6 +44,8 @@ public class Hassle extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.hassle);
+		
+		prefs = getSharedPreferences("Hassle", 0);
 		
 		picture = (ImageView) findViewById(R.id.hassle_picture);
 		name = (TextView) findViewById(R.id.hassle_name);
@@ -164,11 +168,11 @@ public class Hassle extends BaseActivity {
 			}
 			
 			if (email_on) {
-                new SendEmail(getString(R.string.my_email), getString(R.string.my_password), hassle).execute();
+                new SendEmail(prefs.getString("email", getString(R.string.my_email)), 
+                		prefs.getString("password", getString(R.string.my_password)), hassle).execute();
 			}
 			
 			if (twitter_on) {
-				SharedPreferences prefs = getSharedPreferences("Hassle", 0);
 				ConfigurationBuilder cb = new ConfigurationBuilder();
                 cb.setOAuthConsumerKey(getString(R.string.twitter_consumer_key));
                 cb.setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret));
@@ -206,9 +210,10 @@ public class Hassle extends BaseActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-			try {   
+			try {
                 GmailSender sender = new GmailSender(email, password);
-                sender.sendMail("You have received a Hassle!", message, getString(R.string.my_email), contact.email);
+                sender.sendMail("You have received a Hassle!", message, 
+                		prefs.getString("email", getString(R.string.my_email)), contact.email);
                 return true;
             } catch (Exception e) {
                 Log.e("SendMail", e.getMessage(), e);
@@ -227,14 +232,14 @@ public class Hassle extends BaseActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-                try {
-                        StatusUpdate status = new StatusUpdate(tweet);
-                        twitter.updateStatus(status);
-                        return true;
-                } catch (TwitterException e) {
-                        e.printStackTrace();
-                }
-                return false;
+            try {
+                StatusUpdate status = new StatusUpdate(tweet);
+                twitter.updateStatus(status);
+                return true;
+            } catch (TwitterException e) {
+            	e.printStackTrace();
+            }
+            return false;
         }
     }
 

@@ -3,6 +3,10 @@
 
     <string name="app_name">Hassle</string>
     <string name="menu_twitter">Connect a Twitter Account!</string>
+    <string name="menu_email">Connect an Email Address!</string>
+    
+    <string name="gmail">Gmail Address</string>
+    <string name="password">Password</string>
     
     <string name="who">Who do you want to Hassle?</string>
     <string name="what">What do you want to Hassle them about?</string>

@@ -35,6 +35,10 @@
         <activity
             android:name="co.tashawych.hassle.social.TwitterOAuth" >
         </activity>
+        <activity
+            android:name=".AddEmail"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

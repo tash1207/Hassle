@@ -19,6 +19,8 @@ public class BaseActivity extends Activity {
     public boolean onPrepareOptionsMenu(Menu menu) {
     	menu.clear();
     	
+    	menu.add(0, R.id.menu_email, 0, this.getResources().getString(R.string.menu_email));
+    	
         String twitter_screen_name = getSharedPreferences("Hassle", 0).getString("twitter_screen_name", "");
         if (twitter_screen_name.equals("")) {
         	menu.add(0, R.id.menu_twitter, 0, this.getResources().getString(R.string.menu_twitter));
@@ -32,11 +34,16 @@ public class BaseActivity extends Activity {
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
+        case R.id.menu_email:
+        	Intent email = new Intent(this, AddEmail.class);
+            this.startActivity(email);
+            
+            break;
         case R.id.menu_twitter:
         	String twitter_screen_name = getSharedPreferences("Hassle", 0).getString("twitter_screen_name", "");
             if (twitter_screen_name.equals("")) {
-            	Intent intent = new Intent(this, TwitterOAuth.class);
-                this.startActivity(intent);
+            	Intent twitter = new Intent(this, TwitterOAuth.class);
+                this.startActivity(twitter);
             }
             else {
             	AlertDialog.Builder builder = new AlertDialog.Builder(this);
