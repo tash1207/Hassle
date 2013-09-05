@@ -69,7 +69,7 @@ public class Hassle extends BaseActivity {
 		@Override
 		protected void onPostExecute(Void voids) {
 			name.setText(contact.name);
-			picture.setImageBitmap(Utility.getBitmapFromString(contact.picture));
+			if (contact.picture != null) picture.setImageBitmap(Utility.getBitmapFromString(contact.picture));
 			hassle_edit.setHint("What do you want to Hassle " + contact.name + " about?");
 			return;
 		}
@@ -145,12 +145,30 @@ public class Hassle extends BaseActivity {
 	public void btn_hassle_clicked(View v) {
 		String hassle = hassle_edit.getText().toString();
 		
+		String cred_token = prefs.getString("twitter_cred_token", "");
+		String cred_token_secret = prefs.getString("twitter_cred_token_secret", "");
+		
+		String email = prefs.getString("email", "");
+		String password = prefs.getString("password", "");
+		
+		// If user hasn't entered a hassle message
 		if (hassle.equals("")) {
 			Toast.makeText(this, "Please enter something to Hassle " + contact.name + " about.", 
 					Toast.LENGTH_SHORT).show();
 		}
+		// If user hasn't selected a way of hassling the contact
 		else if (!text_on && !email_on && !twitter_on) {
 			Toast.makeText(this, "You need to enable some way of hassling " + contact.name + ".", 
+					Toast.LENGTH_SHORT).show();
+		}
+		// If user wants to send an email but hasn't connected an email account
+		else if (email_on && (email.equals("") || password.equals(""))) {
+			Toast.makeText(this, "You need to connect an email account to send emails", 
+					Toast.LENGTH_SHORT).show();
+		}
+		// If user wants to send a tweet but hasn't connected a twitter account
+		else if (twitter_on && (cred_token.equals("") || cred_token_secret.equals(""))) {
+			Toast.makeText(this, "You need to connect a Twitter account to send tweets", 
 					Toast.LENGTH_SHORT).show();
 		}
 		else {
@@ -168,16 +186,15 @@ public class Hassle extends BaseActivity {
 			}
 			
 			if (email_on) {
-                new SendEmail(prefs.getString("email", getString(R.string.my_email)), 
-                		prefs.getString("password", getString(R.string.my_password)), hassle).execute();
+                new SendEmail(email, password, hassle).execute();
 			}
 			
 			if (twitter_on) {
 				ConfigurationBuilder cb = new ConfigurationBuilder();
                 cb.setOAuthConsumerKey(getString(R.string.twitter_consumer_key));
                 cb.setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret));
-                cb.setOAuthAccessToken(prefs.getString("twitter_cred_token", ""));
-                cb.setOAuthAccessTokenSecret(prefs.getString("twitter_cred_token_secret", ""));
+                cb.setOAuthAccessToken(cred_token);
+                cb.setOAuthAccessTokenSecret(cred_token_secret);
                 
                 TwitterFactory tf = new TwitterFactory(cb.build());
                 Twitter twitter = tf.getInstance();
@@ -188,7 +205,7 @@ public class Hassle extends BaseActivity {
                 new ComposeTweet(twitter, "@" + contact.twitter + " " + hassle).execute();
 			}
 		    
-			Toast.makeText(this, "Hassle: '" + hassle + "' ... sent!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Your Hassle has been sent!", Toast.LENGTH_SHORT).show();
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -212,8 +229,7 @@ public class Hassle extends BaseActivity {
         protected Boolean doInBackground(Void... voids) {
 			try {
                 GmailSender sender = new GmailSender(email, password);
-                sender.sendMail("You have received a Hassle!", message, 
-                		prefs.getString("email", getString(R.string.my_email)), contact.email);
+                sender.sendMail("You have received a Hassle!", message, email, contact.email);
                 return true;
             } catch (Exception e) {
                 Log.e("SendMail", e.getMessage(), e);

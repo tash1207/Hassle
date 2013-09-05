@@ -55,6 +55,9 @@ public class NewContact extends BaseActivity {
     }
     
     public void photo_clicked(View v) {
+    	if (contact == null) {
+    		contact = new Contact(name_edit.getText().toString());
+    	}
         Intent uploadPic = new Intent(Intent.ACTION_PICK, 
         		android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(Intent.createChooser(uploadPic, "Upload photo using:"), UPLOAD_PIC);
@@ -66,7 +69,7 @@ public class NewContact extends BaseActivity {
     	String email = email_edit.getText().toString();
     	String twitter = twitter_edit.getText().toString();
     	
-    	if (edit_mode) {
+    	if (contact != null) {
     		contact.name = name;
     		contact.phone = phone;
     		contact.email = email;

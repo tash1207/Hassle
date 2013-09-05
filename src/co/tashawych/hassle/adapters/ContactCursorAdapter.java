@@ -53,7 +53,9 @@ public class ContactCursorAdapter extends SimpleCursorAdapter {
         }
 		
 		if (c.moveToPosition(position)) {
-			holder.image.setImageBitmap(Utility.getBitmapFromString(c.getString(c.getColumnIndex("picture"))));
+			String picture = c.getString(c.getColumnIndex("picture"));
+			if (picture != null) holder.image.setImageBitmap(Utility.getBitmapFromString(picture));
+			
 			holder.name.setText(c.getString(c.getColumnIndex("name")));
 			holder.phone.setText(c.getString(c.getColumnIndex("phone")));
 			
