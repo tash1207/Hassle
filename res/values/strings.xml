@@ -9,6 +9,11 @@
     <string name="password">Password</string>
     <string name="submit">Submit</string>
     
+    <string name="delete_contact">Delete Contact</string>
+    <string name="are_you_sure">Are you sure you want to remove this Hassle contact from your list?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    
     <string name="who">Who do you want to Hassle?</string>
     <string name="what">What do you want to Hassle them about?</string>
     <string name="send_text">Send Text</string>

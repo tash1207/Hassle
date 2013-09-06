@@ -44,7 +44,9 @@ public class NewContact extends BaseActivity {
         	edit_mode = true;
         	contact = DatabaseHelper.getHelper(this).getContact(id);
         	
-        	picture.setImageBitmap(Utility.getBitmapFromString(contact.picture));
+			if (contact.picture != null) picture.setImageBitmap(Utility.getBitmapFromString(contact.picture));
+			else picture.setImageBitmap(null);
+			
         	name_edit.setText(contact.name);
         	phone_edit.setText(contact.phone);
         	email_edit.setText(contact.email);
