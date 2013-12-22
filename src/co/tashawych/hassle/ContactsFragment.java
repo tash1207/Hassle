@@ -14,6 +14,7 @@ import co.tashawych.hassle.db.DatabaseHelper;
 public class ContactsFragment extends Fragment {
 	boolean mDualPane;
 	int mListPosition;
+	int mContactId;
 	
 	ListView lvw_contacts;
 
@@ -48,13 +49,14 @@ public class ContactsFragment extends Fragment {
 		if (savedInstanceState != null) {
 			// Restore last state for checked position.
 			mListPosition = savedInstanceState.getInt("listPosition", 0);
+			mContactId = savedInstanceState.getInt("contactId", 0);
 		}
 
 		if (mDualPane) {
 			// In dual-pane mode, the list view highlights the selected item.
 			lvw_contacts.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			// Make sure our UI is in the correct state.
-			showDetails(mListPosition);
+			showDetails(mListPosition, mContactId);
 		}
 	}
 	
@@ -62,10 +64,12 @@ public class ContactsFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("listPosition", mListPosition);
+        outState.putInt("contactId", mContactId);
     }
     
-    void showDetails(int index) {
+    public void showDetails(int index, int contact_id) {
         mListPosition = index;
+        mContactId = contact_id;
 
         if (mDualPane) {
             // We can display everything in-place with fragments, so update
@@ -74,20 +78,15 @@ public class ContactsFragment extends Fragment {
 
             // Check what fragment is currently shown, replace if needed.
             HassleFragment hassle = (HassleFragment) getFragmentManager().findFragmentById(R.id.hassle);
-            if (hassle == null || hassle.getShownContactId() != index) {
+            if (hassle == null || hassle.getShownContactId() != contact_id) {
                 // Make new fragment to show this selection.
-                hassle = HassleFragment.newInstance(index);
+                hassle = HassleFragment.newInstance(contact_id);
 
                 // Execute a transaction, replacing any existing fragment
                 // with this one inside the frame.
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                if (index == 0) {
-                    ft.replace(R.id.hassle, hassle);
-//                }
-//                else {
-//                    ft.replace(R.id.a_item, hassle);
-//                }
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.replace(R.id.hassle, hassle);
+                // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 ft.commit();
             }
         }
@@ -96,7 +95,7 @@ public class ContactsFragment extends Fragment {
             // the dialog fragment with selected text.
             Intent intent = new Intent();
             intent.setClass(getActivity(), Hassle.class);
-            intent.putExtra("contact_id", index);
+            intent.putExtra("contact_id", contact_id);
             startActivity(intent);
         }
     }

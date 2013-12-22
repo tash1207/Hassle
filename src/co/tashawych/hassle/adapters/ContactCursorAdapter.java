@@ -1,8 +1,8 @@
 package co.tashawych.hassle.adapters;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
-import co.tashawych.hassle.Hassle;
+import co.tashawych.hassle.ContactsFragment;
 import co.tashawych.hassle.R;
 import co.tashawych.hassle.db.DatabaseHelper;
 import co.tashawych.hassle.misc.Utility;
@@ -19,7 +19,7 @@ import co.tashawych.hassle.misc.Utility;
 public class ContactCursorAdapter extends SimpleCursorAdapter {
 	Context context;
 	int layout;
-	Cursor c;
+	public Cursor c;
 
 	public ContactCursorAdapter(Context context, int layout, Cursor c,
 			String[] from, int[] to, int flags) {
@@ -87,9 +87,9 @@ public class ContactCursorAdapter extends SimpleCursorAdapter {
 			@Override
 			public void onClick(View v) {
 				c.moveToPosition(position);
-				Intent hassle = new Intent(context, Hassle.class);
-				hassle.putExtra("contact_id", c.getInt(c.getColumnIndex("_id")));
-				context.startActivity(hassle);
+				
+				((ContactsFragment)((Activity) context).getFragmentManager().findFragmentById(R.id.contacts))
+					.showDetails(position, c.getInt(c.getColumnIndex("_id")));
 			}
 		});
 		
