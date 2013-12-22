@@ -11,4 +11,10 @@
             <solid android:color="@color/hassle_green_selected" />
         </shape>
     </item>
+    
+    <item android:state_checked="true" >
+        <shape android:shape="rectangle" >
+            <solid android:color="@color/hassle_green_selected" />
+        </shape>
+    </item>
 </selector>

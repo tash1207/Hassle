@@ -3,9 +3,7 @@ package co.tashawych.hassle;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 import android.app.PendingIntent;
@@ -17,7 +15,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,7 +23,6 @@ import android.widget.Toast;
 import co.tashawych.hassle.datatypes.Contact;
 import co.tashawych.hassle.db.DatabaseHelper;
 import co.tashawych.hassle.misc.Utility;
-import co.tashawych.hassle.social.GmailSender;
 
 public class Hassle extends BaseActivity {
 	Contact contact;
@@ -186,7 +182,7 @@ public class Hassle extends BaseActivity {
 			}
 			
 			if (email_on) {
-                new SendEmail(email, password, hassle).execute();
+                new Utility.SendEmail(email, password, hassle, contact.email).execute();
 			}
 			
 			if (twitter_on) {
@@ -202,61 +198,18 @@ public class Hassle extends BaseActivity {
                 // Check if the user's stored screen name begins with the @ symbol, if so remove it
                 if (contact.twitter.startsWith("@")) contact.twitter = contact.twitter.substring(1);
                 
-                new ComposeTweet(twitter, "@" + contact.twitter + " " + hassle).execute();
+                new Utility.ComposeTweet(twitter, "@" + contact.twitter + " " + hassle).execute();
 			}
 		    
 			Toast.makeText(this, "Your Hassle has been sent!", Toast.LENGTH_SHORT).show();
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				Intent new_contact = new Intent(this, ContactList.class);
-				startActivity(new_contact);
+				Intent hassle_contacts = new Intent(this, FragmentLayout.class);
+				hassle_contacts.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(hassle_contacts);
 			}
 		}
 	}
-	
-    private class SendEmail extends AsyncTask<Void, Void, Boolean> {
-    	String email;
-    	String password;
-    	String message;
-    	public SendEmail(String email, String password, String message) {
-    		this.email = email;
-    		this.password = password;
-    		this.message = message;
-    	}
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-			try {
-                GmailSender sender = new GmailSender(email, password);
-                sender.sendMail("You have received a Hassle!", message, email, contact.email);
-                return true;
-            } catch (Exception e) {
-                Log.e("SendMail", e.getMessage(), e);
-                return false;
-            }
-        }
-    }
-	
-    private class ComposeTweet extends AsyncTask<Void, Void, Boolean> {
-    	Twitter twitter;
-    	String tweet;
-    	public ComposeTweet(Twitter twitter, String tweet) {
-    		this.twitter = twitter;
-    		this.tweet = tweet;
-    	}
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            try {
-                StatusUpdate status = new StatusUpdate(tweet);
-                twitter.updateStatus(status);
-                return true;
-            } catch (TwitterException e) {
-            	e.printStackTrace();
-            }
-            return false;
-        }
-    }
 
 }

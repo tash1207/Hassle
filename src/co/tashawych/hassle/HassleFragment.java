@@ -1,6 +1,7 @@
 package co.tashawych.hassle;
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,10 +15,17 @@ import co.tashawych.hassle.db.DatabaseHelper;
 import co.tashawych.hassle.misc.Utility;
 
 public class HassleFragment extends Fragment {
+	boolean isNull;
 	Contact contact;
 	ImageView picture;
 	TextView name;
 	EditText hassle_edit;
+	
+	SharedPreferences prefs;
+	
+	boolean text_on = true;
+	boolean email_on = true;
+	boolean twitter_on = true;
 
     /**
      * Create a new instance of HassleFragment, initialized to
@@ -40,17 +48,18 @@ public class HassleFragment extends Fragment {
     
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.hassle, container, false);
+		if (container == null) {
+			isNull = true;
+			return null;
+		}
+		else return inflater.inflate(R.layout.hassle, container, false);
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
-		picture = (ImageView) getActivity().findViewById(R.id.hassle_picture);
-		name = (TextView) getActivity().findViewById(R.id.hassle_name);
-		hassle_edit = (EditText) getActivity().findViewById(R.id.hassle_edit);	
-		new init_page().execute();
+		prefs = getActivity().getSharedPreferences("Hassle", 0);
+		if (!isNull) new init_page().execute();
 	}
 	
 	private class init_page extends AsyncTask<Void, Void, Void> {
@@ -64,6 +73,10 @@ public class HassleFragment extends Fragment {
 		@Override
 		protected void onPostExecute(Void voids) {
 			if (contact != null) {
+				picture = (ImageView) getActivity().findViewById(R.id.hassle_picture);
+				name = (TextView) getActivity().findViewById(R.id.hassle_name);
+				hassle_edit = (EditText) getActivity().findViewById(R.id.hassle_edit);	
+				
 				name.setText(contact.name);
 				if (contact.picture != null) picture.setImageBitmap(Utility.getBitmapFromString(contact.picture));
 				hassle_edit.setHint("What do you want to Hassle " + contact.name + " about?");

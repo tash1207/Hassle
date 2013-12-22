@@ -70,6 +70,10 @@ public class ContactsFragment extends Fragment {
     public void showDetails(int index, int contact_id) {
         mListPosition = index;
         mContactId = contact_id;
+        ((FragmentLayout) getActivity()).setContactId(contact_id);
+        ((FragmentLayout) getActivity()).email_on = true;
+        ((FragmentLayout) getActivity()).text_on = true;
+        ((FragmentLayout) getActivity()).twitter_on = true;
 
         if (mDualPane) {
             // We can display everything in-place with fragments, so update
