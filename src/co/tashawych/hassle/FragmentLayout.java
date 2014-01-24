@@ -3,6 +3,10 @@ package co.tashawych.hassle;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import co.tashawych.hassle.datatypes.Contact;
+import co.tashawych.hassle.db.DatabaseHelper;
+import co.tashawych.hassle.misc.Utility;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
@@ -11,65 +15,50 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-import co.tashawych.hassle.datatypes.Contact;
-import co.tashawych.hassle.db.DatabaseHelper;
-import co.tashawych.hassle.misc.Utility;
 
-public class Hassle extends BaseActivity {
+public class FragmentLayout extends BaseActivity {
+	int contactId;
 	Contact contact;
-	ImageView picture;
-	TextView name;
-	EditText hassle_edit;
 	
 	SharedPreferences prefs;
 	
-	boolean text_on = true;
-	boolean email_on = true;
-	boolean twitter_on = true;
-	
+	public boolean text_on = true;
+	public boolean email_on = true;
+	public boolean twitter_on = true;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.hassle);
+		setContentView(R.layout.fragment_layout);
 		
 		prefs = getSharedPreferences("Hassle", 0);
-		
-		picture = (ImageView) findViewById(R.id.hassle_picture);
-		name = (TextView) findViewById(R.id.hassle_name);
-		hassle_edit = (EditText) findViewById(R.id.hassle_edit);		
 	}
 	
-	@Override
-	protected void onStart() {
-		super.onStart();
-		new init_page().execute();
+	protected void setContactId(int contactId) {
+		this.contactId = contactId;
+		this.contact = DatabaseHelper.getHelper(this).getContact(contactId);
 	}
 	
-	private class init_page extends AsyncTask<Void, Void, Void> {
-
-		@Override
-		protected Void doInBackground(Void... arg0) {
-			contact = DatabaseHelper.getHelper(Hassle.this).getContact(getIntent().getIntExtra("contact_id", 1));
-			return null;
-		}
-		
-		@Override
-		protected void onPostExecute(Void voids) {
-			name.setText(contact.name);
-			if (contact.picture != null) picture.setImageBitmap(Utility.getBitmapFromString(contact.picture));
-			hassle_edit.setHint("What do you want to Hassle " + contact.name + " about?");
-			return;
-		}
-		
+	public void add_contact(View v) {
+		Intent add_contact = new Intent(this, NewContact.class);
+		startActivity(add_contact);
+	}
+	
+	public void btn_edit_clicked(View v) {
+		Intent edit_contact = new Intent(this, NewContact.class);
+		edit_contact.putExtra("id", contactId);
+		startActivity(edit_contact);
+	}
+	
+	public void btn_speak_clicked(View v) {
+		request_voice_input();
 	}
 	
 	private void request_voice_input() {
@@ -78,28 +67,6 @@ public class Hassle extends BaseActivity {
 		intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say your Hassle message");
 		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
 		startActivityForResult(intent, VOICE_RECOGNITION);
-	}
-	
-	@Override
-	protected void onActivityResult(int request, int result, Intent data) {
-		// VOICE RECOGNITION
-		if (result == RESULT_OK && request == VOICE_RECOGNITION) {
-			ArrayList<String> results = 
-					data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-			
-			String mostLikelyResult = results.get(0);
-			hassle_edit.setText(mostLikelyResult);
-		}
-	}
-	
-	public void btn_edit_clicked(View v) {
-		Intent edit_contact = new Intent(this, NewContact.class);
-		edit_contact.putExtra("id", contact.id);
-		startActivity(edit_contact);
-	}
-	
-	public void btn_speak_clicked(View v) {
-		request_voice_input();
 	}
 	
 	public void switch_text(View v) {
@@ -139,6 +106,7 @@ public class Hassle extends BaseActivity {
 	}
 
 	public void btn_hassle_clicked(View v) {
+		EditText hassle_edit = (EditText) findViewById(R.id.hassle_edit);
 		String hassle = hassle_edit.getText().toString();
 		
 		String cred_token = prefs.getString("twitter_cred_token", "");
@@ -205,10 +173,21 @@ public class Hassle extends BaseActivity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				Intent hassle_contacts = new Intent(this, FragmentLayout.class);
-				hassle_contacts.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(hassle_contacts);
+				Toast.makeText(this, "Your Hassle has been sent!", Toast.LENGTH_SHORT).show();
 			}
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int request, int result, Intent data) {
+		// VOICE RECOGNITION
+		if (result == RESULT_OK && request == VOICE_RECOGNITION) {
+			ArrayList<String> results = 
+					data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+			
+			String mostLikelyResult = results.get(0);
+			EditText hassle_edit = (EditText) findViewById(R.id.hassle_edit);
+			hassle_edit.setText(mostLikelyResult);
 		}
 	}
 

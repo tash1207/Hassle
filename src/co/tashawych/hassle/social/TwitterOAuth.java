@@ -14,7 +14,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
 import co.tashawych.hassle.R;
 
 import com.google.api.client.auth.oauth.OAuthAuthorizeTemporaryTokenUrl;
@@ -26,10 +25,10 @@ import com.google.api.client.http.apache.ApacheHttpTransport;
 
 public class TwitterOAuth extends Activity {
 	
-    private static final String REQUEST_URL = "http://api.twitter.com/oauth/request_token";
-    private static final String ACCESS_URL = "http://api.twitter.com/oauth/access_token";
-    private static final String AUTHORIZE_URL = "http://api.twitter.com/oauth/authorize";
-    private static final String OAUTH_CALLBACK_URL = "http://api.feathr.co/v1/twitter";
+    private static final String REQUEST_URL = "https://api.twitter.com/oauth/request_token";
+    private static final String ACCESS_URL = "https://api.twitter.com/oauth/access_token";
+    private static final String AUTHORIZE_URL = "https://api.twitter.com/oauth/authorize";
+    private static final String OAUTH_CALLBACK_URL = "http://tashawych.co/hassle";
     
     OAuthHmacSigner signer;
     String requestToken, verifier;

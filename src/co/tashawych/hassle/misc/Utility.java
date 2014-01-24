@@ -3,6 +3,11 @@ package co.tashawych.hassle.misc;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
+import twitter4j.StatusUpdate;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import co.tashawych.hassle.social.GmailSender;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -19,7 +24,9 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
 public class Utility {
@@ -89,6 +96,52 @@ public class Utility {
 		    	 return false;
 		     }
 		}
+    }
+    
+    static public class SendEmail extends AsyncTask<Void, Void, Boolean> {
+    	String email;
+    	String password;
+    	String message;
+    	String recipient_email;
+    	public SendEmail(String email, String password, String message, String recipient_email) {
+    		this.email = email;
+    		this.password = password;
+    		this.message = message;
+    		this.recipient_email = recipient_email;
+    	}
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+			try {
+                GmailSender sender = new GmailSender(email, password);
+                sender.sendMail("You have received a Hassle!", message, email, recipient_email);
+                return true;
+            } catch (Exception e) {
+                Log.e("SendMail", e.getMessage(), e);
+                return false;
+            }
+        }
+    }
+	
+    static public class ComposeTweet extends AsyncTask<Void, Void, Boolean> {
+    	Twitter twitter;
+    	String tweet;
+    	public ComposeTweet(Twitter twitter, String tweet) {
+    		this.twitter = twitter;
+    		this.tweet = tweet;
+    	}
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                StatusUpdate status = new StatusUpdate(tweet);
+                twitter.updateStatus(status);
+                return true;
+            } catch (TwitterException e) {
+            	e.printStackTrace();
+            }
+            return false;
+        }
     }
 	
 }
