@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <!-- For PushBots -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

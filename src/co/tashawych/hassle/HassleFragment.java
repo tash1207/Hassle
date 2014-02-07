@@ -22,10 +22,6 @@ public class HassleFragment extends Fragment {
 	EditText hassle_edit;
 	
 	SharedPreferences prefs;
-	
-	boolean text_on = true;
-	boolean email_on = true;
-	boolean twitter_on = true;
 
     /**
      * Create a new instance of HassleFragment, initialized to

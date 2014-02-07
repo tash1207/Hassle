@@ -44,6 +44,12 @@ public class NewContact extends BaseActivity {
         	edit_mode = true;
         	contact = DatabaseHelper.getHelper(this).getContact(id);
         	
+        	if (contact == null) {
+        		Toast.makeText(this, "Oops! That contact doesn't exist anymore!", Toast.LENGTH_SHORT).show();
+        		finish();
+        		return;
+        	}
+        	
 			if (contact.picture != null) picture.setImageBitmap(Utility.getBitmapFromString(contact.picture));
 			else picture.setImageBitmap(null);
 			

@@ -32,7 +32,8 @@ public class FragmentLayout extends BaseActivity {
 	public boolean text_on = true;
 	public boolean email_on = true;
 	public boolean twitter_on = true;
-
+	boolean error_occurred = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -135,44 +136,63 @@ public class FragmentLayout extends BaseActivity {
 			Toast.makeText(this, "You need to connect a Twitter account to send tweets", 
 					Toast.LENGTH_SHORT).show();
 		}
+		// If user wants to email or tweet but doesn't have an Internet connection
+		else if ((email_on || twitter_on) && !Utility.hasInternetAccess(this)) {
+			Toast.makeText(this, "You need Internet access to send emails and tweets",
+					Toast.LENGTH_SHORT).show();
+		}
 		else {
-			try {
 			if (text_on) {
-				PendingIntent pi = PendingIntent.getActivity(this, 0, null, 0);
-				SmsManager sms = SmsManager.getDefault();
-			    sms.sendTextMessage(contact.phone, null, hassle, pi, null);
-			    
-			    ContentValues values = new ContentValues();
-			    values.put("address", contact.phone);
-			    values.put("body", hassle);
-			    values.put("date", System.currentTimeMillis());
-			    getContentResolver().insert(Uri.parse("content://sms/sent"), values);
+				try {
+					PendingIntent pi = PendingIntent.getActivity(this, 0, null, 0);
+					SmsManager sms = SmsManager.getDefault();
+				    sms.sendTextMessage(contact.phone, null, hassle, pi, null);
+				    
+				    ContentValues values = new ContentValues();
+				    values.put("address", contact.phone);
+				    values.put("body", hassle);
+				    values.put("date", System.currentTimeMillis());
+				    getContentResolver().insert(Uri.parse("content://sms/sent"), values);
+				} catch (Exception e) {
+					error_occurred = true;
+					Toast.makeText(this, "There was an error sending the text message",
+							Toast.LENGTH_SHORT).show();
+				}
 			}
 			
 			if (email_on) {
-                new Utility.SendEmail(email, password, hassle, contact.email).execute();
+				try {
+					new Utility.SendEmail(email, password, hassle, contact.email).execute();
+				} catch (Exception e) {
+					error_occurred = true;
+					Toast.makeText(this, "There was an error sending the email",
+							Toast.LENGTH_SHORT).show();
+				}
 			}
 			
 			if (twitter_on) {
-				ConfigurationBuilder cb = new ConfigurationBuilder();
-                cb.setOAuthConsumerKey(getString(R.string.twitter_consumer_key));
-                cb.setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret));
-                cb.setOAuthAccessToken(cred_token);
-                cb.setOAuthAccessTokenSecret(cred_token_secret);
-                
-                TwitterFactory tf = new TwitterFactory(cb.build());
-                Twitter twitter = tf.getInstance();
-                
-                // Check if the user's stored screen name begins with the @ symbol, if so remove it
-                if (contact.twitter.startsWith("@")) contact.twitter = contact.twitter.substring(1);
-                
-                new Utility.ComposeTweet(twitter, "@" + contact.twitter + " " + hassle).execute();
+				try {
+					ConfigurationBuilder cb = new ConfigurationBuilder();
+	                cb.setOAuthConsumerKey(getString(R.string.twitter_consumer_key));
+	                cb.setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret));
+	                cb.setOAuthAccessToken(cred_token);
+	                cb.setOAuthAccessTokenSecret(cred_token_secret);
+	                
+	                TwitterFactory tf = new TwitterFactory(cb.build());
+	                Twitter twitter = tf.getInstance();
+	                
+	                // Check if the user's stored screen name begins with the @ symbol, if so remove it
+	                if (contact.twitter.startsWith("@")) contact.twitter = contact.twitter.substring(1);
+	                
+	                new Utility.ComposeTweet(twitter, "@" + contact.twitter + " " + hassle).execute();
+				} catch (Exception e) {
+					error_occurred = true;
+					Toast.makeText(this, "There was an error sending the tweet",
+							Toast.LENGTH_SHORT).show();
+				}
 			}
 		    
-			Toast.makeText(this, "Your Hassle has been sent!", Toast.LENGTH_SHORT).show();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
+			if (!error_occurred) {
 				Toast.makeText(this, "Your Hassle has been sent!", Toast.LENGTH_SHORT).show();
 			}
 		}

@@ -23,6 +23,8 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
@@ -96,6 +98,13 @@ public class Utility {
 		    	 return false;
 		     }
 		}
+    }
+    
+    public static boolean hasInternetAccess(Context context) {
+    	  ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    	  NetworkInfo ni = cm.getActiveNetworkInfo();
+    	  if (ni == null || !ni.isConnected()) return false; // There are no active/connected networks
+    	  else return true;
     }
     
     static public class SendEmail extends AsyncTask<Void, Void, Boolean> {
