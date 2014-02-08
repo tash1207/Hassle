@@ -36,7 +36,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
         <activity
-            android:name="co.tashawych.hassle.FragmentLayout"
+            android:name="co.tashawych.hassle.WelcomeScreen"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,6 +49,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".FragmentLayout" />
         <activity android:name=".NewContact" />
         <activity android:name=".Hassle" />
         <activity android:name="co.tashawych.hassle.social.TwitterOAuth" />

@@ -5,6 +5,11 @@
     <string name="menu_twitter">Connect a Twitter Account!</string>
     <string name="menu_email">Connect an Email Address!</string>
     
+    <string name="welcome_to">Welcome To</string>
+    <string name="create_contact">Create A New Hassle Contact</string>
+    <string name="import_contact">Import Contacts From Phone</string>
+    <string name="view_contacts">View My Hassle Contacts</string>
+    
     <string name="gmail">Gmail Address</string>
     <string name="password">Password</string>
     <string name="submit">Submit</string>

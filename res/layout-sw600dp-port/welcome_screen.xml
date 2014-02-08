@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="@string/welcome_to"
+        android:textColor="@color/hassle_green"
+        android:textSize="36sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitStart"
+        android:src="@drawable/hassle" />
+
+    <Button style="@style/btn_style"
+        android:id="@+id/btn_create_new_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:onClick="create_new_contact"
+        android:text="@string/create_contact"
+        android:textSize="28sp" />
+
+    <Button style="@style/btn_style"
+        android:id="@+id/btn_add_phone_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:onClick="add_phone_contact"
+        android:text="@string/import_contact"
+        android:textSize="28sp" />
+
+    <Button style="@style/btn_style"
+        android:id="@+id/btn_view_contacts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:onClick="view_contacts"
+        android:text="@string/view_contacts"
+        android:textSize="28sp" />
+
+</LinearLayout>
