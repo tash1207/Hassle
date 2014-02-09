@@ -6,6 +6,7 @@ import java.util.Locale;
 import co.tashawych.hassle.datatypes.Contact;
 import co.tashawych.hassle.db.DatabaseHelper;
 import co.tashawych.hassle.misc.Utility;
+import co.tashawych.hassle.social.TwitterOAuth;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -50,6 +51,16 @@ public class FragmentLayout extends BaseActivity {
 	public void add_contact(View v) {
 		Intent add_contact = new Intent(this, NewContact.class);
 		startActivity(add_contact);
+	}
+	
+	public void add_twitter(View v) {
+		Intent add_twitter = new Intent(this, TwitterOAuth.class);
+		startActivity(add_twitter);
+	}
+	
+	public void add_email(View v) {
+		Intent add_email = new Intent(this, AddEmail.class);
+		startActivity(add_email);
 	}
 	
 	public void btn_edit_clicked(View v) {

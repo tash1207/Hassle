@@ -4,17 +4,51 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/btn_add_contact"
+    <RelativeLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/btn_hassle"
-        android:onClick="add_contact"
-        android:padding="20dp"
-        android:text="@string/add_contact"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp" />
+        android:layout_height="50dp"
+        android:background="@color/hassle_green" >
+
+        <ImageButton
+            android:id="@+id/btn_add_contact"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_hassle"
+            android:contentDescription="@string/add_contact"
+            android:onClick="add_contact"
+            android:padding="4dp"
+            android:src="@drawable/add_contact" />
+
+        <ImageButton
+            android:id="@+id/btn_add_twitter"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_hassle"
+            android:contentDescription="@string/menu_twitter"
+            android:onClick="add_twitter"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/twitter_active" />
+
+        <ImageButton
+            android:id="@+id/btn_add_email"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_toLeftOf="@id/btn_add_twitter"
+            android:background="@drawable/btn_hassle"
+            android:contentDescription="@string/menu_email"
+            android:onClick="add_email"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/email_active" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#88FFFFFF" />
 
     <ListView
         android:id="@+id/lvw_contacts"

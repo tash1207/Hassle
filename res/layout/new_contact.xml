@@ -93,21 +93,11 @@
             android:id="@+id/btn_create"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="@drawable/rounded_blue"
+            android:background="@drawable/btn_hassle"
             android:onClick="create_clicked"
             android:text="@string/create"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
-        <!--
-    <Button android:id="@+id/btn_test"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@drawable/rounded_blue"
-        android:text="TEST"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
-        android:onClick="test_clicked" />
-        -->
     </LinearLayout>
 
 </ScrollView>
