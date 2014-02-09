@@ -8,6 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class AddEmail extends BaseActivity {
 	
@@ -32,10 +33,19 @@ public class AddEmail extends BaseActivity {
       		Animation fade_in = AnimationUtils.loadAnimation(AddEmail.this, android.R.anim.fade_in);
       		layout.startAnimation(fade_in);
           }
-        }, 850);
+        }, 700);
 	}
 	
 	public void btn_submit_clicked(View v) {
+		if (edit_email.getText().toString().equals("") || edit_password.getText().toString().equals("")) {
+			Toast.makeText(this, "Please enter an email and password", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		if (!edit_email.getText().toString().contains("@gmail.com")) {
+			Toast.makeText(this, "Email address must be @gmail.com", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 		SharedPreferences.Editor edit = getSharedPreferences("Hassle", 0).edit();
 		edit.putString("email", edit_email.getText().toString());
 		edit.putString("password", edit_password.getText().toString());

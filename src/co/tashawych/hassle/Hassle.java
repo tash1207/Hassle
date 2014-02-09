@@ -158,6 +158,21 @@ public class Hassle extends BaseActivity {
 			Toast.makeText(this, "You need to enable some way of hassling " + contact.name + ".", 
 					Toast.LENGTH_SHORT).show();
 		}
+		// If user wants to text but contact doesn't have phone number
+		else if (text_on && (contact.phone == null || contact.phone.equals(""))) {
+			Toast.makeText(this, contact.name + " does not have a phone number to text.", 
+					Toast.LENGTH_SHORT).show();
+		}
+		// If user wants to email but contact doesn't have email address
+		else if (email_on && (contact.email == null || contact.email.equals(""))) {
+			Toast.makeText(this, contact.name + " does not have an email address to email.", 
+					Toast.LENGTH_SHORT).show();
+		}
+		// If user wants to tweet but contact doesn't have Twitter
+		else if (twitter_on && (contact.twitter == null || contact.twitter.equals(""))) {
+			Toast.makeText(this, contact.name + " does not have a Twitter handle to tweet at.", 
+					Toast.LENGTH_SHORT).show();
+		}
 		// If user wants to send an email but hasn't connected an email account
 		else if (email_on && (email.equals("") || password.equals(""))) {
 			Toast.makeText(this, "You need to connect an email account to send emails",
