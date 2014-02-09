@@ -17,6 +17,8 @@ public class ContactsFragment extends Fragment {
 	int mContactId;
 	
 	ListView lvw_contacts;
+	String[] columns;
+	int[] to;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,17 +31,8 @@ public class ContactsFragment extends Fragment {
 
 		// Populate list with hassle contacts
 		lvw_contacts = (ListView) getActivity().findViewById(R.id.lvw_contacts);
-		String[] columns = new String[] {
-                "name", "phone"
-        };
-         
-        int[] to = new int[] { 
-                R.id.lvw_contacts_name, R.id.lvw_contacts_phone
-        };
-		ContactCursorAdapter adapter = new ContactCursorAdapter(getActivity(), R.layout.lvw_contacts, 
-				DatabaseHelper.getHelper(getActivity()).getContactsCursor(), columns, to, 0);
-		
-		lvw_contacts.setAdapter(adapter);
+		columns = new String[] {"name", "phone"};
+        to = new int[] {R.id.lvw_contacts_name, R.id.lvw_contacts_phone};
 
 		// Check to see if we have a frame in which to embed the hassle
 		// fragment directly in the containing UI.
@@ -58,6 +51,16 @@ public class ContactsFragment extends Fragment {
 			// Make sure our UI is in the correct state.
 			showDetails(mListPosition, mContactId);
 		}
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		
+		ContactCursorAdapter adapter = new ContactCursorAdapter(getActivity(), R.layout.lvw_contacts, 
+				DatabaseHelper.getHelper(getActivity()).getContactsCursor(), columns, to, 0);
+		
+		lvw_contacts.setAdapter(adapter);
 	}
 	
     @Override
