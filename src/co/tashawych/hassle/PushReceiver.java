@@ -13,7 +13,7 @@ public class PushReceiver extends BroadcastReceiver {
 		// Handle Push Message when opened
 		if (action.equals(Pushbots.MSG_OPENED)) {
 			Intent launch = new Intent(Intent.ACTION_MAIN);
-			launch.setClass(Pushbots.getInstance().appContext, ContactList.class);
+			launch.setClass(Pushbots.getInstance().appContext, WelcomeScreen.class);
 			launch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			Pushbots.getInstance().appContext.startActivity(launch);
 		}
