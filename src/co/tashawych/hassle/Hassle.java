@@ -191,7 +191,8 @@ public class Hassle extends BaseActivity {
 		else {
 			if (text_on) {
 				try {
-					PendingIntent pi = PendingIntent.getActivity(this, 0, null, 0);
+					PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(this, Hassle.class), 
+							PendingIntent.FLAG_NO_CREATE);
 					SmsManager sms = SmsManager.getDefault();
 					sms.sendTextMessage(contact.phone, null, hassle, pi, null);
 	
