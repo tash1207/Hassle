@@ -3,14 +3,10 @@ package co.tashawych.hassle;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import co.tashawych.hassle.datatypes.Contact;
-import co.tashawych.hassle.db.DatabaseHelper;
-import co.tashawych.hassle.misc.Utility;
-import co.tashawych.hassle.social.TwitterOAuth;
-
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
+import android.app.Fragment;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -23,6 +19,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import co.tashawych.hassle.datatypes.Contact;
+import co.tashawych.hassle.db.DatabaseHelper;
+import co.tashawych.hassle.misc.Utility;
 
 public class FragmentLayout extends BaseActivity {
 	int contactId;
@@ -54,8 +53,8 @@ public class FragmentLayout extends BaseActivity {
 	}
 	
 	public void add_twitter(View v) {
-		Intent add_twitter = new Intent(this, TwitterOAuth.class);
-		startActivity(add_twitter);
+		Fragment f = getFragmentManager().findFragmentById(R.id.contacts);
+		((ContactsFragment) f).add_twitter();
 	}
 	
 	public void add_email(View v) {

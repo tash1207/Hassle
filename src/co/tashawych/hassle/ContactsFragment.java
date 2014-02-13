@@ -1,20 +1,30 @@
 package co.tashawych.hassle;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import co.tashawych.hassle.adapters.ContactCursorAdapter;
 import co.tashawych.hassle.db.DatabaseHelper;
+import co.tashawych.hassle.social.TwitterOAuth;
 
 public class ContactsFragment extends Fragment {
 	boolean mDualPane;
 	int mListPosition;
 	int mContactId;
+	
+	SharedPreferences prefs;
+	protected boolean has_twitter, has_email;
+	
+	ImageButton btn_add_twitter, btn_add_email;
 	
 	ListView lvw_contacts;
 	String[] columns;
@@ -28,6 +38,9 @@ public class ContactsFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+        btn_add_twitter = (ImageButton) getActivity().findViewById(R.id.btn_add_twitter);
+        btn_add_email = (ImageButton) getActivity().findViewById(R.id.btn_add_email);
 
 		// Populate list with hassle contacts
 		lvw_contacts = (ListView) getActivity().findViewById(R.id.lvw_contacts);
@@ -56,6 +69,15 @@ public class ContactsFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
+		prefs = getActivity().getSharedPreferences("Hassle", 0);
+		
+		String twitter = prefs.getString("twitter_screen_name", "");
+        String email = prefs.getString("email", "");
+        
+        has_twitter = (twitter.equals("")) ? false : true;
+        has_email = (email.equals("")) ? false : true;
+        
+		refresh_icon_drawables();
 		
 		ContactCursorAdapter adapter = new ContactCursorAdapter(getActivity(), R.layout.lvw_contacts, 
 				DatabaseHelper.getHelper(getActivity()).getContactsCursor(), columns, to, 0);
@@ -68,6 +90,54 @@ public class ContactsFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putInt("listPosition", mListPosition);
         outState.putInt("contactId", mContactId);
+    }
+    
+    public void refresh_icon_drawables() {
+        // Set Twitter and Email buttons to reflect state of user authentication        
+        int twitter_img = (has_twitter) ? R.drawable.twitter_active : R.drawable.twitter_inactive;
+        int email_img = (has_email) ? R.drawable.email_active : R.drawable.email_inactive;
+
+        btn_add_twitter.setImageResource(twitter_img);
+        btn_add_email.setImageResource(email_img);
+    }
+    
+    public void add_twitter() {
+    	if (!has_twitter) {
+        	Intent add_twitter = new Intent(getActivity(), TwitterOAuth.class);
+            this.startActivity(add_twitter);
+        }
+        else {
+        	AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Do you want disconnect your Twitter account?");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                	SharedPreferences.Editor editor = getActivity().getSharedPreferences("Hassle", 0).edit();
+    	            editor.putString("twitter_screen_name", "");
+    	            editor.putString("twitter_cred_token", "");
+    	            editor.putString("twitter_cred_token_secret", "");
+    	            editor.commit();
+    	            
+    	            // Change twitter icon to greyed out
+    	            has_twitter = false;
+    	            btn_add_twitter.setImageResource(R.drawable.twitter_inactive);
+    	            
+                    dialog.dismiss();
+                }
+            });
+            
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                }
+            });
+            
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
     
     public void showDetails(int index, int contact_id) {
