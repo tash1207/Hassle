@@ -3,7 +3,6 @@ package co.tashawych.hassle;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 public class WelcomeScreen extends BaseActivity {
 	
@@ -18,7 +17,8 @@ public class WelcomeScreen extends BaseActivity {
 	}
 	
 	public void add_phone_contact(View view) {
-		Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show();
+		Intent add_phone_contact = new Intent(this, PhoneContactsList.class);
+		startActivity(add_phone_contact);
 	}
 	
 	public void view_contacts(View view) {

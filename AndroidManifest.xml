@@ -50,6 +50,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".FragmentLayout" />
+        <activity android:name=".PhoneContactsList" />
         <activity android:name=".NewContact" />
         <activity android:name=".Hassle" />
         <activity android:name="co.tashawych.hassle.social.TwitterOAuth" />
