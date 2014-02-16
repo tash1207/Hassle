@@ -7,8 +7,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/btn_hassle" >
+        android:layout_above="@+id/btn_hassle"
+        android:layout_alignParentTop="true" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,6 +42,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="45dp"
                     android:layout_toRightOf="@id/hassle_picture"
+                    android:clickable="true"
+                    android:onClick="btn_edit_clicked"
                     android:singleLine="true"
                     android:textColor="#40B840"
                     android:textSize="24sp" />
@@ -140,7 +142,6 @@
                     android:textColor="#212121"
                     android:textSize="18sp" />
             </RelativeLayout>
-
         </LinearLayout>
     </ScrollView>
 
