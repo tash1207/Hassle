@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
+import co.tashawych.hassle.datatypes.Contact;
+import co.tashawych.hassle.db.DatabaseHelper;
 
 public class PhoneContactsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     
@@ -44,9 +46,6 @@ public class PhoneContactsListFragment extends Fragment implements LoaderManager
     
     private final String sort_order = Phone.DISPLAY_NAME + " ASC";
     
-//    private static final int CONTACT_ID_INDEX = 0;
-//    private static final int LOOKUP_KEY_INDEX = 1;
-    
     ListView mContactsList;
     long mContactId;
     String mContactKey;
@@ -66,15 +65,16 @@ public class PhoneContactsListFragment extends Fragment implements LoaderManager
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View item, int position, long rowID) {
-				Log.d("item click", "here");
 		        Cursor cursor = mCursorAdapter.getCursor();
 		        cursor.moveToPosition(position);
-//		        mContactId = cursor.getLong(CONTACT_ID_INDEX);
-//		        mContactKey = cursor.getString(LOOKUP_KEY_INDEX);
-//		        mContactUri = Contacts.getLookupUri(mContactId, mContactKey);
 		        
-		        Log.d("cursor name", cursor.getString(cursor.getColumnIndex(Phone.DISPLAY_NAME)));
-		        Log.d("cursor no", cursor.getString(cursor.getColumnIndex(Phone.NUMBER)));
+		        String name = cursor.getString(cursor.getColumnIndex(Phone.DISPLAY_NAME));
+		        String phone = cursor.getString(cursor.getColumnIndex(Phone.NUMBER)).replaceAll("[^0-9]", "");
+
+		        Contact contact = new Contact(name, "", phone, "", "");
+		        DatabaseHelper.getHelper(getActivity()).updateContact(contact);
+		        
+		        Toast.makeText(getActivity(), name + " has been added to your Hassle contacts", Toast.LENGTH_SHORT).show();
 			}
 		});
         mCursorAdapter = new SimpleCursorAdapter(getActivity(), R.layout.phone_contacts_list_item, null,
@@ -86,7 +86,6 @@ public class PhoneContactsListFragment extends Fragment implements LoaderManager
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int loaderID, Bundle args) {
-		Log.d("cursor", "create loader");
 		mSearchString = "#";
 		mSelectionArgs[0] = mSearchString + "%";
         // Starts the query		
@@ -95,20 +94,12 @@ public class PhoneContactsListFragment extends Fragment implements LoaderManager
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		Log.d("cursor", "on load finished");
 		mCursorAdapter.changeCursor(cursor);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		Log.d("cursor", "on loader reset");
 		mCursorAdapter.swapCursor(null);
 	}
 
-	/*
-	@Override
-	public void onItemClick(AdapterView<?> parent, View item, int position, long rowID) {
-
-	}
-	*/
 }
