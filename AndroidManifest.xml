@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <!-- For PushBots -->
+    <!--  
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -28,6 +29,7 @@
 
     <uses-permission android:name="co.tashawych.hassle.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    -->
 
     <application
         android:name="co.tashawych.hassle.BaseApplication"
@@ -59,6 +61,7 @@
             android:screenOrientation="portrait" />
 
         <!-- PUSHBOTS -->
+        <!--  
         <activity android:name="com.pushbots.push.PBMsg" />
         <activity android:name="com.pushbots.push.PBListener" />
 
@@ -81,6 +84,7 @@
                 <action android:name="org.openudid.GETUDID" />
             </intent-filter>
         </service>
+        -->
     </application>
 
 </manifest>
