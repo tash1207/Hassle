@@ -1,6 +1,7 @@
 package co.tashawych.hassle;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -10,8 +11,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.RelativeLayout.LayoutParams;
 import co.tashawych.hassle.adapters.ContactCursorAdapter;
 import co.tashawych.hassle.db.DatabaseHelper;
 import co.tashawych.hassle.social.TwitterOAuth;
@@ -99,6 +106,81 @@ public class ContactsFragment extends Fragment {
 
         btn_add_twitter.setImageResource(twitter_img);
         btn_add_email.setImageResource(email_img);
+    }
+    
+    public void add_email() {
+    	if (!has_email) {
+	    	final Dialog dialog = new Dialog(getActivity());
+	    	dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    	dialog.setContentView(R.layout.dialog_add_email);
+	    	dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+	    	dialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+	    	dialog.show();
+	    	
+	    	final EditText edit_email = (EditText) dialog.findViewById(R.id.edit_email);
+	    	final EditText edit_password = (EditText) dialog.findViewById(R.id.edit_password);
+	
+	    	edit_email.setText(prefs.getString("email", ""));
+	    	
+	    	Button btn_submit = (Button) dialog.findViewById(R.id.btn_submit);
+	    	btn_submit.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View view) {		    	
+					if (edit_email.getText().toString().equals("") || edit_password.getText().toString().equals("")) {
+						Toast.makeText(getActivity(), "Please enter an email and password", Toast.LENGTH_SHORT).show();
+						return;
+					}
+					if (!edit_email.getText().toString().contains("@gmail.com")) {
+						Toast.makeText(getActivity(), "Email address must be @gmail.com", Toast.LENGTH_SHORT).show();
+						return;
+					}
+					
+					SharedPreferences.Editor edit = prefs.edit();
+					edit.putString("email", edit_email.getText().toString());
+					edit.putString("password", edit_password.getText().toString());
+					edit.commit();
+					
+					// Change email icon to active
+		            has_email = true;
+		            btn_add_email.setImageResource(R.drawable.email_active);
+		            
+		            dialog.dismiss();
+				}
+			});
+    	}
+    	else {
+        	AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Do you want disconnect your Gmail account?");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                	SharedPreferences.Editor editor = getActivity().getSharedPreferences("Hassle", 0).edit();
+    	            editor.putString("email", "");
+    	            editor.putString("password", "");
+    	            editor.commit();
+    	            
+    	            // Change email icon to greyed out
+    	            has_email = false;
+    	            btn_add_email.setImageResource(R.drawable.email_inactive);
+    	            
+                    dialog.dismiss();
+                }
+            });
+            
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                }
+            });
+            
+            AlertDialog dialog = builder.create();
+            dialog.show();
+    	}
+
     }
     
     public void add_twitter() {

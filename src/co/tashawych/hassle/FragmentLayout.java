@@ -58,8 +58,8 @@ public class FragmentLayout extends BaseActivity {
 	}
 	
 	public void add_email(View v) {
-		Intent add_email = new Intent(this, AddEmail.class);
-		startActivity(add_email);
+		Fragment f = getFragmentManager().findFragmentById(R.id.contacts);
+		((ContactsFragment) f).add_email();
 	}
 	
 	public void btn_edit_clicked(View v) {

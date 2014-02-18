@@ -1,13 +1,6 @@
 package co.tashawych.hassle;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.view.Menu;
-import android.view.MenuItem;
-import co.tashawych.hassle.social.TwitterOAuth;
 
 
 public class BaseActivity extends Activity {
@@ -15,6 +8,7 @@ public class BaseActivity extends Activity {
 	protected int AFTER_CROP = 2;
 	protected int VOICE_RECOGNITION = 334;
 	
+	/*
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
     	menu.clear();
@@ -81,5 +75,5 @@ public class BaseActivity extends Activity {
 
         return true;
     }
-
+	*/
 }
