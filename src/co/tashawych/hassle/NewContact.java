@@ -77,6 +77,9 @@ public class NewContact extends BaseActivity {
     	String email = email_edit.getText().toString();
     	String twitter = twitter_edit.getText().toString();
     	
+    	// Check if the contact's screen name begins with the @ symbol, if so remove it
+		if (twitter.startsWith("@")) twitter = twitter.substring(1);
+    	
     	if (contact != null) {
     		contact.name = name;
     		contact.phone = phone;

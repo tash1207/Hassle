@@ -69,7 +69,7 @@ public class PhoneContactsListFragment extends Fragment implements LoaderManager
 		        cursor.moveToPosition(position);
 		        
 		        String name = cursor.getString(cursor.getColumnIndex(Phone.DISPLAY_NAME));
-		        String phone = cursor.getString(cursor.getColumnIndex(Phone.NUMBER)).replaceAll("[^0-9]", "");
+		        String phone = cursor.getString(cursor.getColumnIndex(Phone.NUMBER));
 
 		        Contact contact = new Contact(name, "", phone, "", "");
 		        DatabaseHelper.getHelper(getActivity()).updateContact(contact);
