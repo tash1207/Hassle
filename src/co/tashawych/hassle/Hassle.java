@@ -105,37 +105,46 @@ public class Hassle extends BaseActivity {
 
 	public void switch_text(View v) {
 		ImageView switch_text = (ImageView) findViewById(R.id.switch_text);
+		TextView text = (TextView) findViewById(R.id.send_text);
 		if (text_on) {
 			text_on = false;
 			switch_text.setImageResource(R.drawable.sms_inactive);
+			text.setTextColor(getResources().getColor(R.color.text_inactive));
 		}
 		else {
 			text_on = true;
 			switch_text.setImageResource(R.drawable.sms_active);
+			text.setTextColor(getResources().getColor(R.color.text_active));
 		}
 	}
 
 	public void switch_email(View v) {
 		ImageView switch_email = (ImageView) findViewById(R.id.switch_email);
+		TextView email = (TextView) findViewById(R.id.send_email);
 		if (email_on) {
 			email_on = false;
 			switch_email.setImageResource(R.drawable.email_inactive);
+			email.setTextColor(getResources().getColor(R.color.text_inactive));
 		}
 		else {
 			email_on = true;
 			switch_email.setImageResource(R.drawable.email_active);
+			email.setTextColor(getResources().getColor(R.color.text_active));
 		}
 	}
 
 	public void switch_twitter(View v) {
 		ImageView switch_twitter = (ImageView) findViewById(R.id.switch_twitter);
+		TextView twitter = (TextView) findViewById(R.id.send_twitter);
 		if (twitter_on) {
 			twitter_on = false;
 			switch_twitter.setImageResource(R.drawable.twitter_inactive);
+			twitter.setTextColor(getResources().getColor(R.color.text_inactive));
 		}
 		else {
 			twitter_on = true;
 			switch_twitter.setImageResource(R.drawable.twitter_active);
+			twitter.setTextColor(getResources().getColor(R.color.text_active));
 		}
 	}
 

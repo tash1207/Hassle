@@ -93,9 +93,11 @@
                     android:layout_height="28dp"
                     android:layout_marginBottom="16dp"
                     android:layout_toRightOf="@id/switch_text"
+                    android:clickable="true"
                     android:gravity="center"
+                    android:onClick="switch_text"
                     android:text="@string/send_text"
-                    android:textColor="#212121"
+                    android:textColor="@color/text_active"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -115,9 +117,11 @@
                     android:layout_below="@id/send_text"
                     android:layout_marginBottom="16dp"
                     android:layout_toRightOf="@id/switch_email"
+                    android:clickable="true"
                     android:gravity="center"
+                    android:onClick="switch_email"
                     android:text="@string/send_email"
-                    android:textColor="#212121"
+                    android:textColor="@color/text_active"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -137,9 +141,11 @@
                     android:layout_below="@id/send_email"
                     android:layout_marginBottom="16dp"
                     android:layout_toRightOf="@id/switch_twitter"
+                    android:clickable="true"
                     android:gravity="center"
+                    android:onClick="switch_twitter"
                     android:text="@string/send_tweet"
-                    android:textColor="#212121"
+                    android:textColor="@color/text_active"
                     android:textSize="18sp" />
             </RelativeLayout>
         </LinearLayout>
